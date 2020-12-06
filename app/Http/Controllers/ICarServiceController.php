@@ -46,12 +46,12 @@ class ICarServiceController extends Controller
         $idents =  collect(DB::select(
             "SELECT ltrim(rtrim(cast(ta.NumInterno as char))) as idArtikla, ta.Referencia as katBroj, ta.Descrip as opis,isnull(taa.Ubicacion1,'') as lokacija,
         ltrim(rtrim(cast(taa.CdadStock as char))) as stanjeKnjige, ltrim(rtrim(cast(isnull(q.unesenaKolicina,0) as char))) as unesenaKolicina , 
-        ltrim(rtrim(cast(taa.CdadStock  - isnull(q.unesenaKolicina,0) as char)))  as novaKolicina
+        ltrim(rtrim(cast(taa.CdadStock  - isnull(q.unesenaKolicina,0) as char)))  as novaKolicina,marca
         FROM taArticulo ta 
         INNER JOIN taArticuloAlma taa ON ta.NumInterno = taa.NumInterno 
         outer apply (select idArtikla, sum(Stanje) as unesenaKolicina from Popis2012Test p where 1=1 and p.IdArtikla = ta.NumInterno 
         and Dokument = ?	 group by IdArtikla)q
-        WHERE ta.Referencia LIKE RTRIM(?)+'%' AND taa.Almacen = cast(? as int)  AND taa.Emp = '001' 
+        WHERE ta.Referencia = TRIM(?) AND taa.Almacen = cast(? as int)  AND taa.Emp = '001' 
         ORDER BY len(ta.Referencia),lokacija desc, ta.Referencia,CdadStock DESC, ta.Marca DESC",
             [$request->input('dokument'), $request->input('ident'), $request->input('magacin')]
         ));
