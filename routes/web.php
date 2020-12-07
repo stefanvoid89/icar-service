@@ -24,6 +24,7 @@ $router->group(
         $router->get('test-auth', 'ICarServiceController@testAuth');
         $router->get('spisak-komisija', 'ICarServiceController@spisakKomisija');
         $router->post('get-ident', 'ICarServiceController@getIdent');
+        $router->post('store-item', 'ICarServiceController@storeItem');
     }
 
 );

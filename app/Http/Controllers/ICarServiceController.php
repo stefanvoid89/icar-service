@@ -57,4 +57,38 @@ class ICarServiceController extends Controller
         ));
         return response()->json($idents);
     }
+
+
+    public function storeItem(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|integer',
+            'katBroj' => 'required',
+            //    'marca' => 'required',
+            //    'opis' => 'required',
+            //    'lokacija' => 'required',
+            'stanjeKnjige' => 'required',
+            'novoStanje' => 'required',
+            'popisivac' => 'required',
+            'dokument' => 'required|integer',
+        ]);
+        if ($validator->fails()) {
+            // return response()->json(["errors" => implode(" ", $validator->errors()->all())], 422);
+            return response()->json(implode(" ", $validator->errors()->all()), 422);
+        }
+
+        try {
+            DB::insert(
+                "INSERT INTO Popis2012Test (IdArtikla, KatBroj, Marka, Opis, Lokacija, StanjeKnjige, Stanje, Popisivac, Dokument ,Datum) 
+            VALUES (?,?,?,?,?,?,?,?,?,getdate())",
+                [
+                    $request->input('id'), $request->input('katBroj'), $request->input('marca'), $request->input('opis'), $request->input('lokacija'),
+                    $request->input('stanjeKnjige'), $request->input('novoStanje'), $request->input('popisivac'), $request->input('dokument')
+                ]
+            );
+        } catch (\Exception $ex) {
+            return response()->json($ex->getMessage(), 500);
+        }
+    }
 }
