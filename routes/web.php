@@ -25,6 +25,7 @@ $router->group(
         $router->get('spisak-komisija', 'ICarServiceController@spisakKomisija');
         $router->post('get-ident', 'ICarServiceController@getIdent');
         $router->post('store-item', 'ICarServiceController@storeItem');
+        $router->get('spisak-itema', 'ICarServiceController@getListItems');
     }
 
 );

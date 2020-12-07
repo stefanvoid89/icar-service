@@ -92,4 +92,24 @@ class ICarServiceController extends Controller
         }
         return response()->json("Success");
     }
+
+
+    public function getListItems(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'dokument' => 'required|integer'
+        ]);
+        if ($validator->fails()) {
+            return response()->json(implode(" ", $validator->errors()->all()), 422);
+        }
+        $items =  collect(DB::select(
+            "SELECT IdTabele as idTabela,ltrim(rtrim(cast(IdArtikla as char)))  as idArtikla  ,katBroj,opis ,lokacija 
+            ,'' as stanjeKnjige ,ltrim(rtrim(cast(stanje as char)))  as unesenaKolicina ,'' as novaKolicina ,Marka as marca
+            FROM ICARDMS.dbo.Popis2012Test where Dokument	 = ?     
+            order by IdTabele desc",
+            [$request->input('dokument')]
+        ));
+        return response()->json($items);
+    }
 }
