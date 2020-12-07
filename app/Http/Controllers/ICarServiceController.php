@@ -90,5 +90,6 @@ class ICarServiceController extends Controller
         } catch (\Exception $ex) {
             return response()->json($ex->getMessage(), 500);
         }
+        return response()->json("Success");
     }
 }
