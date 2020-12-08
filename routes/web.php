@@ -26,6 +26,7 @@ $router->group(
         $router->post('get-ident', 'ICarServiceController@getIdent');
         $router->post('store-item', 'ICarServiceController@storeItem');
         $router->get('spisak-itema', 'ICarServiceController@getListItems');
+        $router->delete('delete-item/{id}', 'ICarServiceController@deleteItem');
     }
 
 );

@@ -112,4 +112,10 @@ class ICarServiceController extends Controller
         ));
         return response()->json($items);
     }
+
+    public function deleteItem(Request $request, $id)
+    {
+        DB::delete("DELETE from ICARDMS.dbo.Popis2012Test where idTabele = ?", [$id]);
+        return response()->json($id);
+    }
 }
