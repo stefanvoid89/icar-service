@@ -107,7 +107,7 @@ class ICarServiceController extends Controller
             "SELECT IdTabele as idTabela,ltrim(rtrim(cast(IdArtikla as char)))  as idArtikla  ,katBroj,opis ,lokacija 
             ,'' as stanjeKnjige ,ltrim(rtrim(cast(stanje as char)))  as unesenaKolicina ,'' as novaKolicina ,Marka as marca
             FROM ICARDMS.dbo.Popis2012Test where Dokument	 = ?     
-            order by IdTabele desc",
+            order by katBroj,marca desc",
             [$request->input('dokument')]
         ));
         return response()->json($items);
