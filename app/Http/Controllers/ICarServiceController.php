@@ -46,7 +46,7 @@ class ICarServiceController extends Controller
         $idents =  collect(DB::select(
             "SELECT ltrim(rtrim(cast(ta.NumInterno as char))) as idArtikla, ta.Referencia as katBroj, ta.Descrip as opis,isnull(taa.Ubicacion1,'') as lokacija,
         ltrim(rtrim(cast(taa.CdadStock as char))) as stanjeKnjige, ltrim(rtrim(cast(isnull(q.unesenaKolicina,0) as char))) as unesenaKolicina , 
-        ltrim(rtrim(cast(taa.CdadStock  - isnull(q.unesenaKolicina,0) as char)))  as novaKolicina,marca
+        case when isnull(q.unesenaKolicina,0) >= taa.CdadStock then '0' else ltrim(rtrim(cast(taa.CdadStock  - isnull(q.unesenaKolicina,0) as char))) end  as novaKolicina,marca
         FROM taArticulo ta 
         INNER JOIN taArticuloAlma taa ON ta.NumInterno = taa.NumInterno 
         outer apply (select idArtikla, sum(Stanje) as unesenaKolicina from Popis2012Test p where 1=1 and p.IdArtikla = ta.NumInterno 
